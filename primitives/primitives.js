@@ -1,4 +1,4 @@
-import { Mouse } from '../mouse.js'
+import { Mouse } from '../engine/mouse.js'
 
 export class Primitives {
     constructor(engine) {

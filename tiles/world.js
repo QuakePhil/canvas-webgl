@@ -1,4 +1,4 @@
-import { Mouse } from '../mouse.js'
+import { Mouse } from '../engine/mouse.js'
 import { Entity } from './world/entity.js'
 import { Tiles } from './world/tiles.js'
 
