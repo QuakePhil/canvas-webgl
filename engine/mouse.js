@@ -12,12 +12,12 @@ export class Mouse {
             let dy = event.clientY
             let dz = 0
             if (event.deltaY < 0) {
-                if (this.delta_z < 16) {
-                    dz = 1.1
+                if (this.delta_z < 64) {
+                    dz = 2
                 }
             } else {
                 if (this.delta_z > 1) {
-                    dz = 0.9
+                    dz = 0.5
                 }
             }
             if (dz != 0) {

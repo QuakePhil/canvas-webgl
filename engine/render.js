@@ -14,6 +14,7 @@ class Base {
         this.color = [1, 0, 0, 1]
         this.fillColor = [1, 0, 0, 1]
 
+        this.canvas = canvas
         this.gl = canvas.getContext("webgl")
         this.resolution = [canvas.width, canvas.height]
         this.program = this._createProgram()
@@ -23,9 +24,9 @@ class Base {
         this.u_color = this.gl.getUniformLocation(this.program, 'u_color')
     }
 
-    resize(canvas) {
-        this.gl.viewport(0, 0, canvas.width, canvas.height)
-        this.resolution = [canvas.width, canvas.height]
+    resize() {
+        this.gl.viewport(0, 0, this.canvas.width, this.canvas.height)
+        this.resolution = [this.canvas.width, this.canvas.height]
 
         this.gl.useProgram(this.program)
         this.gl.uniform2fv(this.u_resolution, this.resolution)
