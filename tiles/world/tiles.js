@@ -14,7 +14,7 @@ export class Tiles extends TwoDimensionalDict {
     }
 
     generateAndDraw(world) {
-        const canvas = world.engine.render.canvas
+        const canvas = world.render.webgl.canvas
         const mouse = world.mouse
         let x_bound = canvas.width - mouse.delta_x + this.width * mouse.delta_z
         let y_bound = canvas.height - mouse.delta_y + this.height * mouse.delta_z

@@ -3,9 +3,9 @@ import { Entity } from './world/entity.js'
 import { Tiles } from './world/tiles.js'
 
 export class World {
-    constructor(engine) {
+    constructor(render) {
         this.mouse = new Mouse()
-        this.engine = engine
+        this.render = render
         this.tiles = new Tiles()
         this.entities = [
             new Entity(0, 0, 20), // entity 0 is player

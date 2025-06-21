@@ -1,79 +1,38 @@
-// for zoom and pan
-//import { Mouse } from "./mouse.js"
+import { WebGL } from "./webgl.js"
+import { Report } from "./report.js"
 
-// mixins
-import { Line } from './render/line.js'
-import { DashLine } from './render/dashline.js'
-import { Rect } from './render/rect.js'
-import { FillRect } from './render/fillrect.js'
-import { Circle } from './render/circle.js'
-
-class Base {
+export class Render {
     constructor(canvas) {
-        //this.mouse = new Mouse()
-        this.color = [1, 0, 0, 1]
-        this.fillColor = [1, 0, 0, 1]
-
         this.canvas = canvas
-        this.gl = canvas.getContext("webgl")
-        this.resolution = [canvas.width, canvas.height]
-        this.program = this._createProgram()
-        this.positionBuffer = this.gl.createBuffer()
-        this.a_position = this.gl.getAttribLocation(this.program, 'a_position')
-        this.u_resolution = this.gl.getUniformLocation(this.program, 'u_resolution')
-        this.u_color = this.gl.getUniformLocation(this.program, 'u_color')
+        this.fps = 60
+        this.webgl = new WebGL(canvas)
+        this.report = new Report(5 * this.fps)
     }
 
     resize() {
-        this.gl.viewport(0, 0, this.canvas.width, this.canvas.height)
-        this.resolution = [this.canvas.width, this.canvas.height]
-
-        this.gl.useProgram(this.program)
-        this.gl.uniform2fv(this.u_resolution, this.resolution)
+        this.canvas.width = window.innerWidth
+        this.canvas.height = window.innerHeight
+        console.debug(`Width: ${this.canvas.width}, Height: ${this.canvas.height}`)
+        this.webgl.resize()
     }
 
-    setColor(color) {
-        this.color = color
+    run() {
+        if (this.interval == undefined) {
+            this.interval = setInterval(() => {
+                window.requestAnimationFrame(() => this.frame())
+            }, 1000.0 / this.fps)
+            console.debug("Engine running")
+        } else {
+            console.warn("Already running")
+        }
     }
 
-    setFillColor(fillColor) {
-        this.fillColor = fillColor
+    frame() {
+        this.scene.draw()
     }
 
-    _createProgram() {
-        const vsSource = `
-        attribute vec2 a_position;
-        uniform vec2 u_resolution;
-  
-        void main() {
-          vec2 zeroToOne = a_position / u_resolution;
-          vec2 clipSpace = zeroToOne * 2.0 - 1.0;
-          gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
-        }`
-
-        const fsSource = `
-        precision mediump float;
-        uniform vec4 u_color;
-        void main() {
-          gl_FragColor = u_color;
-        }`
-
-        const vertexShader = this._compileShader(vsSource, this.gl.VERTEX_SHADER)
-        const fragmentShader = this._compileShader(fsSource, this.gl.FRAGMENT_SHADER)
-
-        const program = this.gl.createProgram()
-        this.gl.attachShader(program, vertexShader)
-        this.gl.attachShader(program, fragmentShader)
-        this.gl.linkProgram(program)
-        return program
-    }
-
-    _compileShader(source, type) {
-        const shader = this.gl.createShader(type)
-        this.gl.shaderSource(shader, source)
-        this.gl.compileShader(shader)
-        return shader
+    load() {
+        this.resize()
+        this.run()
     }
 }
-
-export class Render extends Circle(FillRect(Rect(DashLine(Line(Base))))) { }

@@ -83,31 +83,31 @@ export class Tile {
     }
 
     static draw(world, tile, x, y, w, h) {
-        const render = world.engine.render
+        const webgl = world.render.webgl
         const mouse = world.mouse
-        render.setFillColor([0.6, 0.6, 0.6, 1])
+        webgl.setFillColor([0.6, 0.6, 0.6, 1])
         mouse.zoomAndPan((...args) => {
-            render.fillRect(...args)
+            webgl.fillRect(...args)
         }, x, y, x + w, y + h)
 
 
-        render.setColor([0, 0, 0, 1])
+        webgl.setColor([0, 0, 0, 1])
         const dashes = 5 * mouse.delta_z
         mouse.zoomAndPan((...args) => {
-            render.dashLine(...args)
+            webgl.dashLine(...args)
         }, x, y, x, y + h, dashes, dashes)
         mouse.zoomAndPan((...args) => {
-            render.dashLine(...args)
+            webgl.dashLine(...args)
         }, x, y, x + w, y, dashes, dashes)
 
         if (tile.buildings == 1) {
             const m = w * 0.1 // tile.margin // 0.15
-            render.setFillColor(tile.color)
+            webgl.setFillColor(tile.color)
             mouse.zoomAndPan((...args) => {
-                render.fillRect(...args)
+                webgl.fillRect(...args)
             }, x + m, y + m, x + w - m, y + h - m)
             mouse.zoomAndPan((...args) => {
-                render.rect(...args)
+                webgl.rect(...args)
             }, x + m, y + m, x + w - m, y + h - m)
         } else if (tile.buildings == 4) {
             const cols = 2
@@ -116,7 +116,7 @@ export class Tile {
             const bw = (w - 3 * padding) / cols
             const bh = (h - 3 * padding) / rows
 
-            render.setFillColor(tile.color)
+            webgl.setFillColor(tile.color)
 
             //window.engine.ctx.fillStyle = tile.color
             //window.engine.ctx.strokeStyle = 'black'
@@ -126,10 +126,10 @@ export class Tile {
                     const bx = x + padding + i * (bw + padding)
                     const by = y + padding + j * (bh + padding)
                     mouse.zoomAndPan((...args) => {
-                        render.fillRect(...args)
+                        webgl.fillRect(...args)
                     }, bx, by, bx + bw, by + bw)
                     mouse.zoomAndPan((...args) => {
-                        render.rect(...args)
+                        webgl.rect(...args)
                     }, bx, by, bx + bw, by + bw)
                 }
             }

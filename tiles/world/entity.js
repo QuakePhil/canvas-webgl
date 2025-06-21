@@ -8,9 +8,9 @@ export class Entity {
     }
 
     draw(world) {
-        world.engine.render.setColor([0.1, 0.6, 0.9, 1])
+        world.render.webgl.setColor([0.1, 0.6, 0.9, 1])
         world.mouse.zoomAndPan((...args) => {
-            world.engine.render.circle(...args)
+            world.render.webgl.circle(...args)
         }, this.x, this.y, this.r)
     }
 

@@ -1,10 +1,10 @@
-import { Engine } from '../engine.js'
+import { Render } from '../engine/render.js'
 import { World } from './world.js'
 
 const canvas = document.getElementById("webgl-canvas")
-const engine = new Engine(canvas)
+const render = new Render(canvas)
 
-engine.game = new World(engine)
+render.scene = new World(render)
 
-window.addEventListener("load", () => engine.load())
-window.addEventListener("resize", () => engine.resize())
+window.addEventListener("load", () => render.load())
+window.addEventListener("resize", () => render.resize())

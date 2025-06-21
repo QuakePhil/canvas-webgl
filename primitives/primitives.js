@@ -1,38 +1,38 @@
 import { Mouse } from '../engine/mouse.js'
 
 export class Primitives {
-    constructor(engine) {
+    constructor(render) {
         this.mouse = new Mouse()
-        this.engine = engine
+        this.render = render
     }
 
     draw() {
-        this.engine.render.setColor([0.1, 0.6, 0.9, 1])
-        //this.engine.render.circle(200, 150, 50)
+        this.render.webgl.setColor([0.1, 0.6, 0.9, 1])
+        //this.render.webgl.circle(200, 150, 50)
         this.mouse.zoomAndPan((...args) => {
-            this.engine.render.circle(...args)
+            this.render.webgl.circle(...args)
         }, 200, 150, 50)
 
-        this.engine.render.setColor([0.9, 0.6, 0.1, 1])
+        this.render.webgl.setColor([0.9, 0.6, 0.1, 1])
         this.mouse.zoomAndPan((...args) => {
-            this.engine.render.line(...args)
+            this.render.webgl.line(...args)
         }, 10, 10, 200, 200)
 
-        this.engine.render.setColor([0.6, 0.9, 0.1, 1])
+        this.render.webgl.setColor([0.6, 0.9, 0.1, 1])
         this.mouse.zoomAndPan((...args) => {
-            this.engine.render.rect(...args)
+            this.render.webgl.rect(...args)
         }, 300, 300, 400, 400)
 
-        this.engine.render.setFillColor([0.6, 0.1, 0.9, 1])
+        this.render.webgl.setFillColor([0.6, 0.1, 0.9, 1])
         this.mouse.zoomAndPan((...args) => {
-            this.engine.render.fillRect(...args)
+            this.render.webgl.fillRect(...args)
         }, 300, 500, 400, 600)
 
-        this.engine.render.setColor([0.9, 0.6, 0.1, 1])
+        this.render.webgl.setColor([0.9, 0.6, 0.1, 1])
         this.mouse.zoomAndPan((...args) => {
-            this.engine.render.dashLine(...args)
+            this.render.webgl.dashLine(...args)
         }, 10, 110, 200, 300, 10, 10)
 
-        this.engine.report.count_frames_and_report_every_nth()
+        this.render.report.count_frames_and_report_every_nth()
     }
 }
