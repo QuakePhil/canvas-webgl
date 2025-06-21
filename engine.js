@@ -16,11 +16,6 @@ export class Engine {
         this.render.resize()
     }
 
-    load() {
-        this.resize()
-        this.run()
-    }
-
     run() {
         if (this.interval == undefined) {
             this.interval = setInterval(() => {
@@ -34,5 +29,10 @@ export class Engine {
 
     frame() {
         this.game.draw()
+    }
+
+    load() {
+        this.resize()
+        this.run()
     }
 }
