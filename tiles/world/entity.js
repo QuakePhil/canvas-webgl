@@ -7,9 +7,11 @@ export class Entity {
         this.solid_thing_to_avoid = [95, 95, 105, 105]
     }
 
-    draw(render) {
-        render.setColor([0.1, 0.6, 0.9, 1])
-        render.circle(this.x, this.y, this.r)
+    draw(world) {
+        world.engine.render.setColor([0.1, 0.6, 0.9, 1])
+        world.mouse.zoomAndPan((...args) => {
+            world.engine.render.circle(...args)
+        }, this.x, this.y, this.r)
     }
 
     ensure_waypoints_avoid_solid_think() {

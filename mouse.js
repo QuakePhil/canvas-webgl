@@ -8,6 +8,9 @@ export class Mouse {
         this.last_y = 0
 
         document.addEventListener("wheel", (event) => {
+            if (this.handler) {
+                return this.handler.wheel(event)
+            }
             let dx = event.clientX
             let dy = event.clientY
             let dz = 0
@@ -32,6 +35,9 @@ export class Mouse {
         })
 
         document.addEventListener("mousedown", (event) => {
+            if (this.handler) {
+                return this.handler.mousedown(event)
+            }
             // Prevent context menu on right-click
             event.preventDefault()
 
@@ -56,10 +62,16 @@ export class Mouse {
 
         // Also ensure context menu is globally disabled if needed
         document.addEventListener("contextmenu", (event) => {
+            if (this.handler) {
+                return this.handler.contextmenu(event)
+            }
             //event.preventDefault()
         })
 
         document.addEventListener("mousemove", (event) => {
+            if (this.handler) {
+                return this.handler.mousemove(event)
+            }
             if (this.dragging) {
                 let dx = event.clientX - this.last_x
                 let dy = event.clientY - this.last_y
@@ -72,7 +84,41 @@ export class Mouse {
         })
 
         document.addEventListener("mouseup", () => {
+            if (this.handler) {
+                return this.handler.mouseup(event)
+            }
             this.dragging = false
         })
+    }
+
+    zoomAndPan(cb, ...args) {
+        if (args.length === 2) {
+            cb(
+                args[0] * this.delta_z + this.delta_x,
+                args[1] * this.delta_z + this.delta_y
+            )
+        } else if (args.length === 3) {
+            cb(
+                args[0] * this.delta_z + this.delta_x,
+                args[1] * this.delta_z + this.delta_y,
+                args[2] * this.delta_z
+            )
+        } else if (args.length === 4) {
+            cb(
+                args[0] * this.delta_z + this.delta_x,
+                args[1] * this.delta_z + this.delta_y,
+                args[2] * this.delta_z + this.delta_x,
+                args[3] * this.delta_z + this.delta_y
+            )
+        } else if (args.length === 6) {
+            cb(
+                args[0] * this.delta_z + this.delta_x,
+                args[1] * this.delta_z + this.delta_y,
+                args[2] * this.delta_z + this.delta_x,
+                args[3] * this.delta_z + this.delta_y,
+                args[4] * this.delta_z,
+                args[5] * this.delta_z
+            )
+        }
     }
 }

@@ -1,6 +1,5 @@
 import { Render } from "./engine/render.js"
 import { Report } from "./engine/report.js"
-import { World } from "./engine/world.js"
 
 export class Engine {
     constructor(canvas) {
@@ -8,7 +7,6 @@ export class Engine {
         this.fps = 60
         this.render = new Render(canvas)
         this.report = new Report(5 * this.fps)
-        this.world = new World(this.render)
     }
 
     resize() {
@@ -35,23 +33,6 @@ export class Engine {
     }
 
     frame() {
-        this.world.draw()
-        return
-        this.render.setColor([0.1, 0.6, 0.9, 1])
-        this.render.circle(200, 150, 50)
-
-        this.render.setColor([0.9, 0.6, 0.1, 1])
-        this.render.line(10, 10, 200, 200)
-
-        this.render.setColor([0.6, 0.9, 0.1, 1])
-        this.render.rect(300, 300, 400, 400)
-
-        this.render.setFillColor([0.6, 0.1, 0.9, 1])
-        this.render.fillRect(300, 500, 400, 600)
-
-        this.render.setColor([0.9, 0.6, 0.1, 1])
-        this.render.dashLine(10, 110, 200, 300, 10, 10)
-
-        this.report.count_frames_and_report_every_nth()
+        this.game.draw()
     }
 }

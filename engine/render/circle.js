@@ -1,8 +1,5 @@
 export const Circle = Base => class extends Base {
     circle(x, y, radius, segments = 32) {
-        [x, y] = this.zoomAndPan(x, y)
-        radius = this.zoom(radius)
-
         const vertices = [x, y]
         for (let i = 0; i <= segments; i++) {
             const angle = (i / segments) * 2 * Math.PI

@@ -1,9 +1,11 @@
+import { Mouse } from '../mouse.js'
 import { Entity } from './world/entity.js'
 import { Tiles } from './world/tiles.js'
 
 export class World {
-    constructor(render) {
-        this.render = render
+    constructor(engine) {
+        this.mouse = new Mouse()
+        this.engine = engine
         this.tiles = new Tiles()
         this.entities = [
             new Entity(0, 0, 20), // entity 0 is player
@@ -12,9 +14,9 @@ export class World {
     }
 
     draw() {
-        this.tiles.generateAndDraw(this.render)
+        this.tiles.generateAndDraw(this)
         for (let entity of this.entities) {
-            entity.draw(this.render)
+            entity.draw(this)
         }
         for (let entity of this.entities) {
             entity.think()

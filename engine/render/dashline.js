@@ -1,7 +1,5 @@
 export const DashLine = Base => class extends Base {
     dashLine(x1, y1, x2, y2, dashLength = 5, gapLength = 3) {
-        [x1, y1, x2, y2] = this.zoomAndPan4(x1, y1, x2, y2)
-
         const gl = this.gl
         gl.useProgram(this.program)
 

@@ -1,7 +1,5 @@
 export const FillRect = Base => class extends Base {
     fillRect(x1, y1, x2, y2) {
-        [x1, y1, x2, y2] = this.zoomAndPan4(x1, y1, x2, y2)
-
         const gl = this.gl
         gl.useProgram(this.program)
 

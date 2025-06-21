@@ -1,5 +1,5 @@
 // for zoom and pan
-import { Mouse } from "./mouse.js"
+//import { Mouse } from "./mouse.js"
 
 // mixins
 import { Line } from './render/line.js'
@@ -10,7 +10,7 @@ import { Circle } from './render/circle.js'
 
 class Base {
     constructor(canvas) {
-        this.mouse = new Mouse()
+        //this.mouse = new Mouse()
         this.color = [1, 0, 0, 1]
         this.fillColor = [1, 0, 0, 1]
 
@@ -38,26 +38,6 @@ class Base {
 
     setFillColor(fillColor) {
         this.fillColor = fillColor
-    }
-
-    zoom(z) {
-        return z * this.mouse.delta_z
-    }
-
-    zoomAndPan(x, y) {
-        return [
-            x * this.mouse.delta_z + this.mouse.delta_x,
-            y * this.mouse.delta_z + this.mouse.delta_y
-        ]
-    }
-
-    zoomAndPan4(x1, y1, x2, y2) {
-        return [
-            x1 * this.mouse.delta_z + this.mouse.delta_x,
-            y1 * this.mouse.delta_z + this.mouse.delta_y,
-            x2 * this.mouse.delta_z + this.mouse.delta_x,
-            y2 * this.mouse.delta_z + this.mouse.delta_y
-        ]
     }
 
     _createProgram() {
