@@ -1,10 +1,10 @@
 import { Projectile } from './projectile.js'
 
 export class Enemy {
-    constructor(canvas, game) {
-        this.canvas = canvas
+    constructor(game) {
+        this.canvas = game.render.canvas
         this.game = game
-        this.x = canvas.width / 3
+        this.x = this.canvas.width / 3
         this.y = 0
         this.speed = 0 // 3
 
@@ -26,7 +26,7 @@ export class Enemy {
         }
         if (this.offense) {
             if (this.offense_reload == 0) {
-                this.game.entities.push(new Projectile(this.canvas, this.x, this.y, 5))
+                this.game.entities.push(new Projectile(this.game, this.x, this.y, 5))
                 this.offense_reload = 30
             }
         }

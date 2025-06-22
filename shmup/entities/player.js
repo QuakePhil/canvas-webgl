@@ -1,11 +1,11 @@
 import { Projectile } from './projectile.js'
 
 export class Player {
-    constructor(canvas, game) {
-        this.canvas = canvas
+    constructor(game) {
+        this.canvas = game.render.canvas
         this.game = game
-        this.x = canvas.width / 2
-        this.y = canvas.height / 2
+        this.x = this.canvas.width / 2
+        this.y = this.canvas.height / 2
         this.waypoint_x = this.x
         this.waypoint_y = this.y
         this.waypoint_r = 1 // cursor size
@@ -32,7 +32,7 @@ export class Player {
         }
         if (this.offense) {
             if (this.offense_reload == 0) {
-                this.game.entities.push(new Projectile(this.canvas, this.x, this.y, -20))
+                this.game.entities.push(new Projectile(this.game, this.x, this.y, -20))
                 this.offense_reload = 30
             }
         }

@@ -1,6 +1,6 @@
 export class Projectile {
-    constructor(canvas, x, y, speed) {
-        this.canvas = canvas
+    constructor(game, x, y, speed) {
+        this.game = game
         this.x = x
         this.y = y
         this.speed = speed
@@ -14,7 +14,7 @@ export class Projectile {
 
     think() {
         this.y += this.speed
-        if (this.y < 0 || this.y > this.canvas.height) {
+        if (this.y < 0 || this.y > this.game.render.canvas.height) {
             this.delete = true
         }
     }
