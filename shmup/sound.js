@@ -9,91 +9,109 @@ export class Sound {
         })
     }
 
-    playNote(frequency, duration = 1) {
+    _playOscillator({
+        frequency = 440,
+        duration = 1,
+        type = 'sine',
+        frequencyRamp = null,
+        gainRamp = null
+    } = {}) {
+        const now = this.audio.currentTime
         const osc = this.audio.createOscillator()
         const gain = this.audio.createGain()
 
-        osc.type = 'sine'
-        osc.frequency.value = frequency
+        osc.type = type
+        osc.frequency.setValueAtTime(frequency, now)
+
+        if (frequencyRamp) {
+            osc.frequency.exponentialRampToValueAtTime(frequencyRamp, now + duration)
+        }
+
+        gain.gain.setValueAtTime(1, now)
+        if (gainRamp) {
+            gain.gain.exponentialRampToValueAtTime(gainRamp, now + duration)
+        }
 
         osc.connect(gain)
         gain.connect(this.audio.destination)
 
-        osc.start()
-        osc.stop(this.audio.currentTime + duration)
+        osc.start(now)
+        osc.stop(now + duration)
+    }
+
+    playNote(frequency, duration = 1) {
+        this._playOscillator({ frequency, duration, type: 'sine' })
     }
 
     laserBlaster(frequency = 880, duration = 0.3) {
-        const osc = this.audio.createOscillator()
-        const gain = this.audio.createGain()
-
-        osc.type = 'square'
-        osc.frequency.setValueAtTime(frequency, this.audio.currentTime)
-        osc.frequency.exponentialRampToValueAtTime(100, this.audio.currentTime + duration)
-
-        gain.gain.setValueAtTime(1, this.audio.currentTime)
-        gain.gain.exponentialRampToValueAtTime(0.01, this.audio.currentTime + duration)
-
-        osc.connect(gain)
-        gain.connect(this.audio.destination)
-
-        osc.start()
-        osc.stop(this.audio.currentTime + duration)
+        this._playOscillator({
+            frequency,
+            duration,
+            type: 'square',
+            frequencyRamp: 100,
+            gainRamp: 0.01
+        })
     }
 
-    playDamageSound() {
-        const bufferSize = this.audio.sampleRate * 0.2 // 200ms burst
+    _playNoise({
+        duration = 1,
+        fade = null,
+        filter = null,
+        gain = 1,
+        endGain = 0.01
+    } = {}) {
+        const now = this.audio.currentTime
+        const bufferSize = this.audio.sampleRate * duration
         const buffer = this.audio.createBuffer(1, bufferSize, this.audio.sampleRate)
         const data = buffer.getChannelData(0)
+
         for (let i = 0; i < bufferSize; i++) {
-            data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 2) // fade out
+            const base = Math.random() * 2 - 1
+            data[i] = fade ? base * fade(i / bufferSize) : base
         }
 
         const noise = this.audio.createBufferSource()
         noise.buffer = buffer
 
-        const filter = this.audio.createBiquadFilter()
-        filter.type = 'highpass'
-        filter.frequency.setValueAtTime(1500, this.audio.currentTime)
-        filter.Q.value = 5
+        const gainNode = this.audio.createGain()
+        gainNode.gain.setValueAtTime(gain, now)
+        gainNode.gain.exponentialRampToValueAtTime(endGain, now + duration)
 
-        const gain = this.audio.createGain()
-        gain.gain.setValueAtTime(0.7, this.audio.currentTime)
-        gain.gain.exponentialRampToValueAtTime(0.01, this.audio.currentTime + 0.2)
+        let nodeChain = noise
 
-        noise.connect(filter)
-        filter.connect(gain)
-        gain.connect(this.audio.destination)
+        if (filter) {
+            const biquad = this.audio.createBiquadFilter()
+            biquad.type = filter.type || 'lowpass'
+            biquad.frequency.setValueAtTime(filter.frequency || 1000, now)
+            if (filter.Q) biquad.Q.value = filter.Q
+            nodeChain.connect(biquad)
+            nodeChain = biquad
+        }
 
-        noise.start()
-        noise.stop(this.audio.currentTime + 0.2)
+        nodeChain.connect(gainNode)
+        gainNode.connect(this.audio.destination)
+
+        noise.start(now)
+        noise.stop(now + duration)
     }
 
     playExplosion() {
-        const bufferSize = this.audio.sampleRate
-        const buffer = this.audio.createBuffer(1, bufferSize, this.audio.sampleRate)
-        const data = buffer.getChannelData(0)
-        for (let i = 0; i < bufferSize; i++) {
-            data[i] = Math.random() * 2 - 1 // white noise
-        }
+        this._playNoise({
+            duration: 1,
+            filter: { type: 'lowpass', frequency: 1000 },
+            gain: 1,
+            endGain: 0.01
+        })
+    }
 
-        const noise = this.audio.createBufferSource()
-        noise.buffer = buffer
-
-        const filter = this.audio.createBiquadFilter()
-        filter.type = 'lowpass'
-        filter.frequency.setValueAtTime(1000, this.audio.currentTime)
-
-        const gain = this.audio.createGain()
-        gain.gain.setValueAtTime(1, this.audio.currentTime)
-        gain.gain.exponentialRampToValueAtTime(0.01, this.audio.currentTime + 1)
-
-        noise.connect(filter)
-        filter.connect(gain)
-        gain.connect(this.audio.destination)
-
-        noise.start()
-        noise.stop(this.audio.currentTime + 1)
+    playDamageSound() {
+        this._playNoise({
+            duration: 0.2,
+            fade: t => Math.pow(1 - t, 2), // quadratic fade-out
+            filter: { type: 'highpass', frequency: 1500, Q: 5 },
+            gain: 0.7,
+            endGain: 0.01
+        })
     }
 
     playKick(time) {
