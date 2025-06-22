@@ -1,4 +1,5 @@
 import { Mouse } from './mouse.js'
+import { Sound } from './sound.js'
 import { Player } from './entities/player.js'
 import { Starfield } from './entities/starfield.js'
 import { Enemy } from './entities/enemy.js'
@@ -23,6 +24,8 @@ import { Enemy } from './entities/enemy.js'
 export class ShootEmUp extends Mouse {
     constructor(render) {
         super(render)
+        this.sound = new Sound()
+        // this.sound.playMusic()
         this.render = render
         render.fps = 60
 

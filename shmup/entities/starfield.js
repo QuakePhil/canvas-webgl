@@ -18,7 +18,9 @@ export class Starfield extends Projectile {
             { speed: 16, color: [0.1, 0.1, 0.1, 1] },
         ]
         let configuration = configurations[Math.floor(Math.random() * configurations.length)]
-        this.speed = configuration.speed
+        if (configuration.speed <= 2) {
+            this.speed = Math.random() + configuration.speed
+        }
         this.color = configuration.color
     }
 

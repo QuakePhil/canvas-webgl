@@ -35,6 +35,7 @@ export class Player extends Vulnerable {
         }
         if (this.offense) {
             if (this.offense_reload == 0) {
+                this.game.sound.laserBlaster(660)
                 this.game.entities.push(new Missile(this.game, this.x, this.y, -20, this.entity_index))
                 this.offense_reload = 30
             }

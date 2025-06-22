@@ -1,5 +1,6 @@
 export class Vulnerable {
     constructor(game, entity_index) {
+        this.game = game
         this.entity_index = entity_index
     }
 
@@ -19,7 +20,10 @@ export class Vulnerable {
             this.hp -= hp
             console.log(`Took ${hp} damage from entity #${from_entity_index}, ${this.hp} HP left!`)
             if (this.hp <= 0) {
+                this.game.sound.playExplosion()
                 this.respawn()
+            } else {
+                this.game.sound.playDamageSound()
             }
         }
     }
