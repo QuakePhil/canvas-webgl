@@ -6,7 +6,7 @@ export class Enemy {
         this.game = game
         this.x = canvas.width / 3
         this.y = 0
-        this.speed = 3
+        this.speed = 0 // 3
 
         this.offense = true
         this.offense_reload = 0
@@ -15,9 +15,9 @@ export class Enemy {
         // this.evasive_maneuvers = ...
     }
 
-    draw(webgl) {
-        webgl.setColor([1, 0, 0, 1])
-        webgl.triangle(this.x, this.y + 20, this.x - 10, this.y - 5, this.x + 10, this.y - 5)
+    draw(ctx) {
+        ctx.setColor([1, 0, 0, 1])
+        ctx.triangle(this.x, this.y + 20, this.x - 10, this.y - 5, this.x + 10, this.y - 5)
     }
 
     think() {
@@ -26,7 +26,7 @@ export class Enemy {
         }
         if (this.offense) {
             if (this.offense_reload == 0) {
-                this.game.entities.push(new Projectile(this.canvas, this.x, this.y, 20))
+                this.game.entities.push(new Projectile(this.canvas, this.x, this.y, 5))
                 this.offense_reload = 30
             }
         }

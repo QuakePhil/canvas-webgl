@@ -15,12 +15,15 @@ export class Player {
         this.defense = false
     }
 
-    draw(webgl) {
-        webgl.setColor([0.1, 0.6, 0.9, 1])
-        webgl.circle(this.waypoint_x, this.waypoint_y, this.waypoint_r)
+    draw(ctx) {
+        ctx.setColor([0.1, 0.6, 0.9, 1])
+        ctx.circle(this.waypoint_x, this.waypoint_y, this.waypoint_r)
 
-        webgl.setColor([0.1, 0.6, 0.9, 1])
-        webgl.triangle(this.x, this.y - 20, this.x - 10, this.y + 5, this.x + 10, this.y + 5)
+        ctx.setColor([0.2, 0.2, 0.2, 1])
+        ctx.circle(this.x, this.y, 10)
+
+        ctx.setColor([0.1, 0.6, 0.9, 1])
+        ctx.triangle(this.x, this.y - 20, this.x - 10, this.y + 5, this.x + 10, this.y + 5)
     }
 
     think() {

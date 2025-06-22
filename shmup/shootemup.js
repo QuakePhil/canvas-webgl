@@ -37,7 +37,7 @@ export class ShootEmUp extends Mouse {
 
     draw() {
         for (let entity of this.entities) {
-            entity.draw(this.render.webgl)
+            entity.draw(this.render.ctx)
         }
 
         this.render.report.count_frames_and_report_every_nth()

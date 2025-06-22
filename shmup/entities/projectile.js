@@ -7,9 +7,9 @@ export class Projectile {
         this.color = [1, 1, 1, 1]
     }
 
-    draw(webgl) {
-        webgl.setColor(this.color) // color based on speed? faster - more white
-        webgl.line(this.x, this.y, this.x, this.y + this.speed)
+    draw(ctx) {
+        ctx.setColor(this.color) // color based on speed? faster - more white
+        ctx.line(this.x, this.y, this.x, this.y + this.speed)
     }
 
     think() {
