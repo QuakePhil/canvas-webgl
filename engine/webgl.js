@@ -6,6 +6,7 @@ import { Line } from './webgl/line.js'
 import { DashLine } from './webgl/dashline.js'
 import { Rect } from './webgl/rect.js'
 import { FillRect } from './webgl/fillrect.js'
+import { Triangle } from './webgl/triangle.js'
 import { Circle } from './webgl/circle.js'
 
 class Base {
@@ -76,4 +77,4 @@ class Base {
     }
 }
 
-export class WebGL extends Circle(FillRect(Rect(DashLine(Line(Base))))) { }
+export class WebGL extends Circle(Triangle(FillRect(Rect(DashLine(Line(Base)))))) { }
