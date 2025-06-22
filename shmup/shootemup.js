@@ -27,8 +27,8 @@ export class ShootEmUp extends Mouse {
         render.fps = 60
 
         this.entities = []
-        this.entities.push(new Player(this))
-        this.entities.push(new Enemy(this))
+        this.entities.push(new Player(this, 0))
+        this.entities.push(new Enemy(this, 1))
         let starcount = Math.floor(render.canvas.width * render.canvas.height / 4000)
         console.log(`Starfield count: ${starcount}`)
         for (let i = 0; i < starcount; ++i)
