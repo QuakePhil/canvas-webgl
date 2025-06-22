@@ -42,7 +42,7 @@ export class Enemy extends Vulnerable {
         if (this.offense) {
             if (this.offense_reload == 0) {
                 this.shots += 1
-                this.game.sound.laserBlaster(990)
+                this.game.sound.playBlaster(990)
                 this.game.entities.push(new Missile(this.game, this.x, this.y, 20, this.entity_index))
                 if (this.shots % this.max_shots == 0) {
                     this.offense_reload = 180
