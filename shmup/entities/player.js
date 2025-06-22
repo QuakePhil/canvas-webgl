@@ -30,7 +30,7 @@ export class Player {
         if (this.offense) {
             if (this.offense_reload == 0) {
                 this.game.entities.push(new Projectile(this.canvas, this.x, this.y, -20))
-                this.offense_reload = 10
+                this.offense_reload = 30
             }
         }
 
@@ -43,7 +43,7 @@ export class Player {
         const dy = this.waypoint_y - this.y
         const dist = Math.hypot(dx, dy) // use fast distance approximator?
 
-        const speed = 2 // max step size per frame
+        const speed = 3 // max step size per frame
         const epsilon = 0.1 // threshold to consider "arrived"
 
         if (dist > epsilon) {

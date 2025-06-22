@@ -1,6 +1,7 @@
 import { Mouse } from './mouse.js'
 import { Player } from './entities/player.js'
 import { Starfield } from './entities/starfield.js'
+import { Enemy } from './entities/enemy.js'
 
 // todo: initialize middle of canvas
 // basic mouse handler to drift the craft towards mouse move
@@ -27,9 +28,11 @@ export class ShootEmUp extends Mouse {
 
         this.entities = []
         this.entities.push(new Player(render.canvas, this))
-        for (let i = 0; i < 10; ++i)
+        this.entities.push(new Enemy(render.canvas, this))
+        let starcount = Math.floor(render.canvas.width * render.canvas.height / 4000)
+        console.log(`Starfield count: ${starcount}`)
+        for (let i = 0; i < starcount; ++i)
             this.entities.push(new Starfield(render.canvas))
-
     }
 
     draw() {
